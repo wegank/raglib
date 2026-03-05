@@ -577,7 +577,7 @@ local vvar, ls, rd, sols, rr, lF, lhyp, gb, i, j, verb;
       if HasOverLap(rr) = false then 
         rr := ConstructFibers(rr, hyp, [op(Positive), op(NotNull)]);
       else 
-        if verb> = 1 then printf("[Overlap Regular]"); end if;
+        if verb>= 1 then printf("[Overlap Regular]"); end if;
         gb := MSolveGroebner([op(Equations), op(Fam), op(minors),
               hyp-rag_sep_elem], 0, [op(vars), rag_sep_elem],
               opts union
