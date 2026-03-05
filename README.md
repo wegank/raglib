@@ -21,7 +21,7 @@ Source code and installation instructions for
 [msolve](https://msolve.lip6.fr) can be found at
 [https://github.com/algebraic-solving/msolve](https://github.com/algebraic-solving/msolve).
 
-== Installation instructions
+## Installation instructions
 
 - Install [msolve](https://msolve.lip6.fr)
 - Install the file interface between [msolve](https://msolve.lip6.fr)
