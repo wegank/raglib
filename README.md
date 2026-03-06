@@ -60,5 +60,6 @@ At the moment, `RAGlib` provides two main functions:
     polynomial constraints. 
 
 For instance, the call 
-``PointsPerComponents([x*y-1], [x^2+y^2-4], []);``
+
+    ``PointsPerComponents([x*y-1], [x^2+y^2-4], []);``
 
