@@ -1,6 +1,6 @@
 # Deciding the existence of solutions
 
-*HasRealSolutions*(eqs, positive, nonzero, opts)
+**HasRealSolutions**(eqs, positive, nonzero, opts)
 where 
 - eqs, positive and nonzero are lists of polynomials with rational
   coefficients
@@ -9,7 +9,7 @@ where
     - nonzer stands for _non-vanishing constraints_
 - opts is a set indicating some options (this is an optional argument)
 
-*HasRealSolutions* decides if the semi-algebraic set defined by 
+**HasRealSolutions** decides if the semi-algebraic set defined by 
 - the vanishing of all polynomials in eqs,
 - the positivity of all polynomials in positive,
 - the non-vanishing of all polynomials in nonzero
@@ -22,7 +22,7 @@ Each such point is given by an isolating box.
 
 # Computing at least one point per connected component
 
-*PointsPerComponents*(eqs, positive, nonzero, opts)
+**PointsPerComponents**(eqs, positive, nonzero, opts)
 where 
 - eqs, positive and nonzero are lists of polynomials with rational
   coefficients
@@ -31,7 +31,7 @@ where
     - nonzer stands for _non-vanishing constraints_
 - opts is a set indicating some options (this is an optional argument)
 
-*PointsPerComponents* computes at least one point in each connected
+**PointsPerComponents** computes at least one point in each connected
 component of the semi-algebraic set defined by 
 - the vanishing of all polynomials in eqs,
 - the positivity of all polynomials in positive,
