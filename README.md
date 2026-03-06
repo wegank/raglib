@@ -44,4 +44,11 @@ Source code and installation instructions for
 
 ## Basic usage
 
+At the moment, `RAGlib` provides two main functions:
+- `HasRealSolutions(eqs, pos, ineqs)` where eqs, pos, ineqs are lists
+    of polynomials encoding equality, positivity and non-vanishing
+    constraints respectively.   
+- `PointsPerComponents(eqs, pos, ineqs)` where eqs, pos, ineqs are lists
+    of polynomials encoding equality, positivity and non-vanishing
+    constraints respectively.  
 
