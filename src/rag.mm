@@ -817,7 +817,7 @@ lF, nsols2, rr, j, lhyp, k, vvar, ls;
                                 [], opts):
         end if;
         if nops(nsols2) < 2 then 
-          #lprint(args);
+          lprint(args);
           error "nsols2 should have cardinality 2 (2)";
         else 
           nsols2 := [0, AdmissibleSolutions(nsols2, nops(Positive))];
@@ -949,7 +949,6 @@ J, JS, minors, sminors, rag_sat_var, gb, a, b, hyp1, hyp2, J1, J2, lminors, j;
           error "nsols should have cardinality 2";
         end if;
         nsols:=AdmissibleSolutions(nsols, nops(Inequalities)+1);
-        lprint(evalf(nsols));
         nsols := map(sol->map(c-> if member(lhs(c), vars) then c fi, sol),nsols);
       else 
         nsols := []:
@@ -1144,7 +1143,6 @@ end proc:
 
 UnivariateSolveFamily:=proc(Equations, Fam, Inequalities, Inequations, vars)
 local g, upol, f, uroots, i, sq, sols, q, newpol, p, mid;
-  lprint(args);
   g:=0:
   for i from 1 to nops(Equations) do 
     g:=gcd(g, Equations[i]):
@@ -1229,7 +1227,6 @@ local g, upol, f, uroots, i, sq, sols, q, newpol, p, mid;
   sols:=[]:
   for i from 1 to nops(uroots)-1 do 
     mid:=SmallMidRational(uroots[i][2], uroots[i+1][1]);
-    lprint(evalf(mid));
     if not(member(-1, map(sign, subs(vars[1]=mid, Inequalities))))
       then 
       sols:=[op(sols), [vars[1]=[mid,mid]]];
@@ -1426,16 +1423,11 @@ end proc;
 
 DegenerateDeformedSystem:=proc(sys, ld, Inequalities, Inequations, vars, eps, opts)
 local gb, sols;
-  lprint(args);
-  #debug(SaturateIntersect, ModSatIntersectLM,MinimalGeneratorsDichotomy);
   gb:=SaturateIntersect(sys, ld[1], ld, [op(vars), eps], opts):
-  lprint(gb);
   sols:=MSolveRealRoots([op(gb), op(sys), ld[1]], [op(vars), eps],
         [op(Inequalities), eps, op(Inequations)], opts):
-  lprint(sols);
-  quit;
-  sols:=AdmissibleSolutions(sols, nops(Inequalities)):
-  sols:=map(_p->map(_c->if member(lhs(_c), vars) then _c fi, _p), sols):
+  #sols:=AdmissibleSolutions(sols, nops(Inequalities)):
+  #sols:=map(_p->map(_c->if member(lhs(_c), vars) then _c fi, _p), sols):
   return sols;
 end proc:
 
@@ -1451,7 +1443,6 @@ local verb, eps, lsys, emin, delta, J, i, j, sols, lsols;
   
   lsys:=GenerateDeformedFamilies_eps(Equations, FamPositive,
   FamNotNull, vars, eps, {op(Inequalities), op(Inequations)}):
-  lprint(lsys);
   J:=convert(linalg:-jacobian([op(Equations), op(FamPositive), op(FamNotNull)],
               vars), Matrix);
   delta:=ComputeMaximalMinors(J):
@@ -1461,17 +1452,14 @@ local verb, eps, lsys, emin, delta, J, i, j, sols, lsols;
           [rag_sat_var, eps, op(vars)],
           [op(Inequalities), eps, op(Inequations)], opts):
     if sols[1]>0 then 
-      debug(DegenerateDeformedSystem);
       sols:=DegenerateDeformedSystem(lsys[i], delta, Inequalities,
             Inequations, vars, eps, opts):
     end if;
-    lprint(evalf(sols));
     if nops(FamPositive)>0 then 
       sols:=AdmissibleSolutions(sols, nops(Inequalities)+1);
     else 
       sols:=AdmissibleSolutions(sols, nops(Inequalities));
     end if;
-    lprint(evalf(sols));
     sols:=map(_p->map(_c->if member(lhs(_c), vars) then _c fi, _p), sols):
     lsols:=[op(lsols), op(sols)]:
   
@@ -1496,7 +1484,6 @@ local verb, eps, lsys, emin, delta, J, i, j, sols, lsols;
         lprint(args);
         error "Bug in ZeroDimBoundaries";
       end if;
-      lprint("sols", evalf(sols));
       if nops(sols[2])>0 then 
         emin:=min(map(abs, map(op, map(_p->subs(_p, eps), sols[2]))));
       end if;
@@ -1523,7 +1510,6 @@ local verb, eps, lsys, emin, delta, J, i, j, sols, lsols;
       end do:
     end if;
     sols:=AdmissibleSolutions(sols, nops(Inequalities));
-    lprint(evalf(sols));
 
     lsols:=[op(lsols), op(sols)]:
   end do;

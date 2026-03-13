@@ -428,7 +428,6 @@ newlifted, prevlifted;
   printf("[ngens=%d,mdeg=%d]", N, max(map(degree, gb[1..N])));
   modulus:=fc:
   boo, support:=MonomialSupport(gb[1..N], [seq([],i=1..N)], vars):
-  lprint("support", support);
   boo:=true:
   primetable:=[fc]:
   systable:=[gb[1..N]]:
