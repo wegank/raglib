@@ -1516,6 +1516,30 @@ local verb, eps, lsys, emin, delta, J, i, j, sols, lsols, maxdeg;
     sols:=AdmissibleSolutions(sols, nops(Inequalities));
     lsols:=[op(lsols), op(sols)]:
 
+#Additional specialistions of eps when all constraints are inequations
+    if emin=2 and nops(FamPositive) = 0 then 
+      sols:=MSolveRealRoots(subs(eps=-emin,lsys[i]), vars,
+                            [op(Inequalities), op(Inequations)], opts):
+      while sols[1]>0 do 
+        if verb >= 1 then printf("*"); end if;
+        emin:=emin/2:
+        sols:=MSolveRealRoots(subs(eps=-emin,lsys[i]), vars,
+                            [op(Inequalities), op(Inequations)], opts):
+      end do:
+    else 
+      emin:=emin/2:
+      sols:=MSolveRealRoots(subs(eps=-emin,lsys[i]), vars,
+                            [op(Inequalities), op(Inequations)], opts):
+      while sols[1]>0 do 
+        if verb >= 1 then printf("*"); end if;
+        emin:=emin/2:
+        sols:=MSolveRealRoots(subs(eps=-emin,lsys[i]), vars,
+                            [op(Inequalities), op(Inequations)], opts):
+      end do:
+    end if;
+    sols:=AdmissibleSolutions(sols, nops(Inequalities));
+    lsols:=[op(lsols), op(sols)]:
+
     if maxdeg > 1 then 
       sols:=InfiniteBranches(lsys[i], Inequalities,
               Inequations, vars, eps, opts)
