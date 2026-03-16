@@ -1430,14 +1430,15 @@ end proc:
 
 ZeroDimBoundaries:=proc(Equations, FamPositive, FamNotNull,
                         Inequalities, Inequations, vars, opts:={})
-local verb, eps, lsys, emin, delta, J, i, j, sols, lsols;
+local verb, eps, lsys, emin, delta, J, i, j, sols, lsols, maxdeg;
 
   if type(subs(opts, "verb"), integer) then 
     verb:=subs(opts, "verb");
   else 
     verb:=0:
   end if;
-  
+  maxdeg:=max(map(degree, [op(Equations), op(FamPositive),
+  op(FamNotNull)]));
   lsys:=GenerateDeformedFamilies_eps(Equations, FamPositive,
   FamNotNull, vars, eps, {op(Inequalities), op(Inequations)}):
   J:=convert(linalg:-jacobian([op(Equations), op(FamPositive), op(FamNotNull)],
@@ -1445,21 +1446,23 @@ local verb, eps, lsys, emin, delta, J, i, j, sols, lsols;
   delta:=ComputeMaximalMinors(J):
   lsols:=[]:
   for i from 1 to nops(lsys) do
-    sols:=MSolveRealRoots([rag_sat_var*eps-1,op(lsys[i]),op(delta)], 
-          [rag_sat_var, eps, op(vars)],
-          [op(Inequalities), eps, op(Inequations)], opts):
-    if sols[1]>0 then 
-      sols:=DegenerateDeformedSystem(lsys[i], delta, Inequalities,
-            Inequations, vars, eps, opts):
+    if maxdeg > 1 then 
+      sols:=MSolveRealRoots([rag_sat_var*eps-1,op(lsys[i]),op(delta)], 
+            [rag_sat_var, eps, op(vars)],
+            [op(Inequalities), eps, op(Inequations)], opts):
+      if sols[1]>0 then 
+        sols:=DegenerateDeformedSystem(lsys[i], delta, Inequalities,
+              Inequations, vars, eps, opts):
+      end if;
+      if nops(FamPositive)>0 then 
+        sols:=AdmissibleSolutions(sols, nops(Inequalities)+1);
+      else 
+        sols:=AdmissibleSolutions(sols, nops(Inequalities));
+      end if;
+      sols:=map(_p->map(_c->if member(lhs(_c), vars) then _c fi, _p), sols):
+      lsols:=[op(lsols), op(sols)]:
     end if;
-    if nops(FamPositive)>0 then 
-      sols:=AdmissibleSolutions(sols, nops(Inequalities)+1);
-    else 
-      sols:=AdmissibleSolutions(sols, nops(Inequalities));
-    end if;
-    sols:=map(_p->map(_c->if member(lhs(_c), vars) then _c fi, _p), sols):
-    lsols:=[op(lsols), op(sols)]:
-  
+
     emin:=2:
     for j from 1 to nops(Inequalities) do 
       sols:=MSolveRealRoots([rag_sat_var*eps-1,op(lsys[i]),Inequalities[j]], 
