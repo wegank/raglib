@@ -1428,6 +1428,10 @@ local gb, sols;
   return sols;
 end proc:
 
+InfiniteBranches:=proc(sys, Inequalities, Inequations, vars, eps, opts:={})
+  error "Not implemented yet";
+end proc;
+
 ZeroDimBoundaries:=proc(Equations, FamPositive, FamNotNull,
                         Inequalities, Inequations, vars, opts:={})
 local verb, eps, lsys, emin, delta, J, i, j, sols, lsols, maxdeg;
@@ -1510,7 +1514,12 @@ local verb, eps, lsys, emin, delta, J, i, j, sols, lsols, maxdeg;
       end do:
     end if;
     sols:=AdmissibleSolutions(sols, nops(Inequalities));
+    lsols:=[op(lsols), op(sols)]:
 
+    if maxdeg > 1 then 
+      sols:=InfiniteBranches(lsys[i], Inequalities,
+              Inequations, vars, eps, opts)
+    end if;
     lsols:=[op(lsols), op(sols)]:
   end do;
 
