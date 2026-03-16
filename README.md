@@ -89,3 +89,18 @@ returns
 whose numerical approximation is 
 
     [[x = [-4., -4.], y = [0., 0.]], [x = [-1., -1.], y = [-3., -3.]], [x = [-1., -1.], y = [0.,0.]], [x = [-1., -1.], y = [3., 3.]], [x = [1., 1.], y = [-2., -2.]], [x = [1., 1.], y = [0., 0.]], [x = [1., 1.], y = [2., 2.]], [x = [2., 2.], y = [-1., -1.]], [x = [2., 2.], y = [1., 1.]], [x = [3., 3.], y = [0., 0.]], [x = [.5820766091e-10, .5820766091e-10], y = [0., 0.]], [x = [.5820766091e-10, .5820766091e-10], y = [-1.414213562, -1.414213562]], [x = [.5820766091e-10, .5820766091e-10], y = [1.414213562, 1.414213562]], [x = [.5820766091e-10, .5820766091e-10], y = [-2.000000000, -2.000000000]], [x = [.5820766091e-10, .5820766091e-10], y = [1.000000000, 1.000000000]], [y = [0., 0.], x = [-.1078959322e-4, -.1078959322e-4]], [y = [0., 0.], x = [.1078959322e-4, .1078959322e-4]]]
+
+
+## Future plans
+
+- Many optimizations remain to be implemented, especially for early
+    termination when deciding if a system of polynomial constraints is
+    consistent.
+- At the moment, some singular situations are not handled by `RAGlib`
+    (in that case, it raises an error). These implementations will
+    come soon.
+- More functionalities will come soon, notably, for computing the
+    dimension of real algebraic sets or semi-algebraic sets, one-block
+    quantifier elimination and roadmap computations for answering
+    connectivity queries. 
+- A translation of `RAGlib` in [`AlgebraicSolving.jl`](https://algebraic-solving.github.io/) will be hopefully started soon (see also [https://github.com/algebraic-solving/AlgebraicSolving.jl](https://github.com/algebraic-solving/AlgebraicSolving.jl). 
