@@ -1525,6 +1525,7 @@ local verb, isbounded, eps, lsys, emin, delta, J, i, j, sols, lsols, maxdeg, sol
   J:=convert(linalg:-jacobian([op(Equations), op(FamPositive), op(FamNotNull)],
               vars), Matrix);
   delta:=ComputeMaximalMinors(J):
+  if delta=[0] then return []; fi;
   lsols:=[]:
   for i from 1 to nops(lsys) do
     if maxdeg > 1 then 
