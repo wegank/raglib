@@ -1537,6 +1537,7 @@ local verb, isbounded, eps, lsys, emin, delta, J, i, j, sols, lsols, maxdeg, sol
         if sols[1]>0 then 
           lprint(args);
           error "Bug in ZeroDimBoundaries (1)";
+        end if;
       end if;
       if nops(FamPositive)>0 then 
         sols:=AdmissibleSolutions(sols, nops(Inequalities)+1);
