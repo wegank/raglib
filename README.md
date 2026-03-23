@@ -35,7 +35,7 @@ Source code and installation instructions for
   line to your `.mapleinit` file
   which should be at the root of your home directory.  
   `libname:=savelibname,libname:`   (e.g.
-  `libname="/home/<your-login>/libs`)  
+  `libname:="/home/<your-login>/libs:",libname:`)  
 - add the following line to you `.mapleinit` file   
   `kernelopts(includepath=<src_folder>):`  
   where `src_folder` is the string containing the absolute path to the
