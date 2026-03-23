@@ -97,7 +97,7 @@ local i, j, boo, _pol, spos, sineq, spt;
     end if;
     j:=j+1;
   end do;
-end proc;
+end proc:
 
 GoodFiberValue:=proc(var, hyp, Inequalities, Inequations)
 local i, boo, pos, ineq, ls, hypsol;
@@ -113,7 +113,7 @@ local i, boo, pos, ineq, ls, hypsol;
     end if;
     i := i+1;
   end do;
-end proc;
+end proc:
 
 
 DegreeTruncate:=proc(gb, fam, lm, vars, fc, mdeg, opts:={})
@@ -275,7 +275,7 @@ local gb, i, v, hyp, pol, rr;
     end if;
   end do;
   return true;
-end proc;
+end proc:
 
 FindGenericLineRegular:=proc(eqs, F, lc, singminors, vars,opts:={})
 local rr, hyp, J, B, n, v, i, j, minors, deg, gendeg, ll, isbounded,
@@ -497,7 +497,7 @@ local c, mid, i;
     end if;
   end do;
   return mid;
-end proc;
+end proc:
 
 ConstructFibers:=proc(ll, hyp, cstr)
 local i, mid, res, vvar, ls, val;
@@ -535,11 +535,11 @@ local i, mid, res, vvar, ls, val;
     res:=[op(res), mid]:
   end do;
   res:=[op(res), ceil(ll[nops(ll)][2]+1)]:
-end proc;
+end proc:
 
 HasOverLapCoupleOfIntervals:=proc(l1, l2)
   return (evalb(l1[2] >= l2[1]))
-end proc;
+end proc:
 
 #Assumes that the list of intervals _list has been sorted
 HasOverLap:=proc(_list)
@@ -554,7 +554,7 @@ local i, boo;
     end if;
   end do;
   return false; 
-end proc;
+end proc:
 
 ComputeBoundsRegular:=proc(Equations, Fam, Positive, NotNull, vars, 
                     hyp, minors, gendeg, opts:={})
@@ -656,7 +656,7 @@ local i, toadd, upol, _l, squpol, rr, sols, pol, gb1, gb2;
   rr := sort(convert(rr, list), (a, b)->a[2] < b[1]);
   rr := ConstructFibers(rr, hyp, [op(Positive), op(NotNull)]);
   return rr;
-end proc;
+end proc:
 
 ElimComputeBoundsSingular:=proc(Equations, Fam, Positive, NotNull, vars, 
                     hyp, vminors, gendeg, opts:={})
@@ -755,7 +755,7 @@ lF, nsols2, rr, j, lhyp, k, vvar, ls, verb;
       od:
       return hyp, [j];
   end if;
-end proc;
+end proc:
 
 ComputeBoundsSingular:=proc(Equations, Fam, Positive, NotNull, vars, 
                     hyp, vminors, gendeg, lc, opts:={})
@@ -869,7 +869,7 @@ lF, nsols2, rr, j, lhyp, k, vvar, ls;
       od:
       return hyp, [j];
   end if;
-end proc;
+end proc:
 
 ComputeBounds:=proc(Equations, Fam, Positive, NotNull, vars, opts:={})
 local boo, i, pol, nsols, gb, hyp, rr, s, sols,j, k, gendeg, singminors, 
@@ -1246,7 +1246,7 @@ local g, upol, f, uroots, i, sq, sols, q, newpol, p, mid;
     end if;
   end if;
   return sols;
-end proc;
+end proc:
 
 
 AdmissibleSolutions:=proc(tsols, np)
@@ -1363,7 +1363,7 @@ newtsols, lc;
   end if;
   sols := map(_p->map(_c->if member(lhs(_c), vars) then _c else fi, _p), sols);
   return sols;
-end proc;
+end proc:
 
 
 UnboundedComponents:=proc(Equations, FamPositive, FamNotNull, Inequalities, Inequations, vars, opts:={})
@@ -1416,7 +1416,7 @@ NewInequalities, newvars, tsols, Fam, sols, Positive, NotNull;
       end if;
   end do;
   return sols;
-end proc;
+end proc:
 
 DegenerateDeformedSystem:=proc(sys, ld, Inequalities, Inequations, vars, eps, opts)
 local gb, sols;
@@ -1501,7 +1501,7 @@ local hyp, sols1, sols2, j, smin, smax, i, newll, gb, sys0, gb0, boo, ll, sols, 
          [op(Inequalities), eps, op(Inequations)], opts):
   end if;
   return sols1, sols2;
-end proc;
+end proc:
 
 ZeroDimBoundaries:=proc(Equations, FamPositive, FamNotNull,
                         Inequalities, Inequations, vars, opts:={})
@@ -1647,7 +1647,7 @@ local verb, isbounded, eps, lsys, emin, delta, J, i, j, sols, lsols, maxdeg, sol
   end do;
 
   return lsols;
-end proc;
+end proc:
 
 SolveFamily:=proc(Equations, FamPositive, FamNotNull, Inequalities, Inequations, vars, opts:={})
 local i, ls, cp, hyp, bounds, sols, tsols, a, b, verb, Fam, cstr, NewFamPositive,
@@ -1850,7 +1850,7 @@ newsols, ls, var, hypsol, isempty, hyp, minors, gendeg, _pol;
   end if;
 
   return [op(sols), op(newsols)];
-end proc;
+end proc:
 
 SemiAlgebraicSolve:=proc(Equations, Inequalities, Inequations, opts:={})
 local newsols, _toStudy, l, i, pol, boo, vars, _Studied, singminors, pt, _c,
@@ -1961,7 +1961,7 @@ local isempty, _l, newopts;
     newopts:=map(_l->if lhs(_l)="isempty" then lhs(_l)=1 else _l fi, opts);
     return SemiAlgebraicSolve(eqs, pos, ineqs, newopts);
   end if;
-end proc;
+end proc:
 
 PointsPerComponents:=proc(eqs, pos, ineqs, opts:={})
 local isempty, _l, newopts;
@@ -1978,4 +1978,4 @@ local isempty, _l, newopts;
     newopts:=map(_l->if lhs(_l)="isempty" then lhs(_l)=0 else _l fi, opts);
     return SemiAlgebraicSolve(eqs, pos, ineqs, newopts);
   end if;
-end proc;
+end proc:
