@@ -1737,7 +1737,8 @@ NewFamNotNull, isempty, newsols, isbounded;
 end proc:
 
 SemiAlgebraicSolveIterateOnFamilies:=proc(Equations, Families, Inequalities, Inequations, vars, opts)
-local i, Fam, sols, newsols, verb, st, pos, nonzero, isempty, newvars;
+local i, Fam, sols, newsols, verb, st, pos, nonzero, isempty, newvars,
+card;
 
   if type(subs(opts, "verb"), integer) then 
     verb:=subs(opts, "verb");
@@ -1754,6 +1755,11 @@ local i, Fam, sols, newsols, verb, st, pos, nonzero, isempty, newvars;
   else 
     newvars:=[]:
   end if;
+  if type(subs(opts, "card"), integer) then 
+    card:=subs(opts, "card"):
+  else 
+    card:=-1:
+  end if;
 
   sols := []:
   st:=time[real]():
@@ -1761,7 +1767,7 @@ local i, Fam, sols, newsols, verb, st, pos, nonzero, isempty, newvars;
     Fam  := Families[i]:
     pos := map(idx->Inequalities[idx], Fam[1]);
     nonzero := map(idx->Inequations[idx], Fam[2]):
-    if nops(newvars)=0 or indets([op(Equations),op(pos),op(nonzero)])=newvars then
+    if (nops(newvars)=0 and nops(Fam[1])+nops(Fam[2])>=card) or indets([op(Equations),op(pos),op(nonzero)])=newvars then
       if verb>=1 then 
         printf("<");
       end if;
@@ -1868,7 +1874,7 @@ end proc;
 SemiAlgebraicSolve:=proc(Equations, Inequalities, Inequations, opts:={})
 local newsols, _toStudy, l, i, pol, boo, vars, _Studied, singminors, pt, _c,
 midsols, verb, sols, lsigns, _l, nc, isempty, oldvars, newvars,
-newopts, oldnewvars;
+newopts, oldnewvars, npos;
 
   if type(subs(opts, "verb"), integer) then 
     verb:=subs(opts, "verb");
@@ -1902,7 +1908,6 @@ newopts, oldnewvars;
   for i from 1 to nops(Inequalities) do 
     pol := Inequalities[i];
     newvars:=[op(indets(pol))]:
-    lprint("newvars/oldvars", newvars, oldvars);
     _toStudy := map(l->if nops(l[1])+nops(l[2]) <= nops(vars) then [[op(l[1]), i],[]] fi, _Studied):
 
     if verb>=1 then 
@@ -1911,12 +1916,16 @@ newopts, oldnewvars;
       printf("Number of systems to study is %d\n", nops(_toStudy));
     end if;
     
+    if max(map(degree, [op(Equations), pol, op(Inequalities[1..i-1])]))=1 then 
+      newopts:=opts union {"card"=i}:
+    else 
+      newopts:=opts:
+    end if;
 #If pol involves variables which were not appearing previously and
-#which appear in degree one, the study of some subfamilies can be
-#skipped
-    if nops(oldvars)>0 then 
-      if (degree(pol, remove(member, newvars, oldvars))=1 or degree(pol, oldnewvars)=1) and newopts<>
-        opts then 
+#which appear in degree one 
+#the study of some subfamilies can be skipped
+    if nops(oldvars)>0 and not(type(subs(newopts, "card"),integer)) then 
+      if degree(pol, remove(member, newvars, oldvars))=1 then 
         newopts:= opts union {"newvars"=indets(pol) union
         indets(oldvars)}:
         if newopts=opts then 
@@ -1925,10 +1934,7 @@ newopts, oldnewvars;
       else 
         newopts:= opts;
       end if;
-    else 
-      newopts:=opts:
     end if;
-lprint("newopts", newopts);
 
     newsols:=SemiAlgebraicSolveIterateOnFamilies(Equations, _toStudy, Inequalities,
           Inequations, vars, newopts);
@@ -1945,13 +1951,13 @@ lprint("newopts", newopts);
     end if;
     oldvars:=[op(indets(pol) union indets(oldvars))]:
   end do;
+  npos:=nops(Inequalities):
 
 #TODO: improve the choice of Inequations and introduce criteria to
 #reduce the combinatorial complexity  
   for i from 1 to nops(Inequations) do 
     pol := Inequations[i]:
     newvars:=[op(indets(pol))]:
-    lprint("newvars/oldvars/oldnewvars", newvars, oldvars, oldnewvars);
     _toStudy := map(l->if nops(l[1])+nops(l[2]) <= nops(vars) then [l[1],[op(l[2]), i]] fi, _Studied):
     if verb>=1 then 
       printf("\nDealing with (non-zero) constraint %a / %a of degree %d\n", 
@@ -1959,23 +1965,22 @@ lprint("newopts", newopts);
       printf("Number of systems to study is %d\n", nops(_toStudy));
     end if;
 
+    if max(map(degree, [op(Equations), pol, op(Inequalities), op(Inequations[1..i-1])]))=1 then 
+      newopts:=opts union {"card"=i+npos}:
+    else 
+      newopts:=opts:
+    end if;
 #If pol involves variables which were not appearing previously and
-#which appear in degree one, the study of some subfamilies can be
-#skipped
-    if nops(oldvars)>0 then 
-      if (degree(pol, remove(member, newvars, oldvars))=1 or degree(pol, oldnewvars)=1) then 
-        if newopts=opts or degree(pol, remove(member, newvars, oldvars))=1 then 
-          oldnewvars:=remove(member, newvars, oldvars):
-        end if;
+#which appear in degree one (or if all polynomials have degree one), 
+#the study of some subfamilies can be skipped
+    if nops(oldvars)>0 and not(type(subs(newopts, "card"),integer)) then 
+      if degree(pol, remove(member, newvars, oldvars))=1 then 
         newopts:= opts union {"newvars"=indets(pol) union
         indets(oldvars)}:
       else 
         newopts:= opts;
       end if;
-    else 
-      newopts:=opts;
     end if;
-lprint("newopts", newopts);
 
     newsols:=SemiAlgebraicSolveIterateOnFamilies(Equations, _toStudy, Inequalities,
           Inequations, vars, newopts);
