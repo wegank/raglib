@@ -45,14 +45,14 @@ Source code and installation instructions for
 ## Basic usage
 
 At the moment, `RAGlib` provides two main functions:
-- `HasRealSolutions(eqs, pos, ineqs)` where eqs, pos, ineqs are lists
+- `RAG[HasRealSolutions](eqs, pos, ineqs)` where eqs, pos, ineqs are lists
     of polynomials encoding equality, positivity and non-vanishing
     constraints respectively.   
     It decides whether the set of real solutions to the input
     constraints is empty or not. In case of emptiness, it returns an
     empty list, otherwise, it returns a list of witness points.  
     All such points are encoded by isolating boxes. 
-- `PointsPerComponents(eqs, pos, ineqs)` where eqs, pos, ineqs are lists
+- `RAG[PointsPerComponents](eqs, pos, ineqs)` where eqs, pos, ineqs are lists
     of polynomials encoding equality, positivity and non-vanishing
     constraints respectively.  
     It returns a list of points (encoded with isolating boxes) meeting
@@ -61,7 +61,7 @@ At the moment, `RAGlib` provides two main functions:
 
 For instance, the call 
 
-    PointsPerComponents([x*y-1], [x^2+y^2-4], []);
+    RAG[PointsPerComponents]([x*y-1], [x^2+y^2-4], []);
 
 returns 
 
@@ -80,7 +80,7 @@ connected components.
 
 For instance, the call 
 
-    PointsPerComponents([], [], [(x-1)^2+y^2-1, (x+1)^2+y^2-1-1/2^32]);
+    RAG[PointsPerComponents]([], [], [(x-1)^2+y^2-1, (x+1)^2+y^2-1-1/2^32]);
 
 returns 
 

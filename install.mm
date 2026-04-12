@@ -1,4 +1,4 @@
-# Installation script for RAGlib procedures.
+# Installation script for the RAG package.
 # Run from the repository root with:
 # maple -q install.mm
 
@@ -27,33 +27,11 @@ catch:
   quit:
 end try:
 
-rag_procs:=[
-  IsMinimal, MinimalGeneratorsDichotomy, MinimalGenerators, WitnessLift,
-  MonomialSupport, TableCoeffsSinglePoly, OldTableCoeffs, TableCoeffs,
-  LiftPolynomials, NewValuesWitness, GeneratorsLift, ElimModSatIntersect,
-  ElimModSatIntersectLM, ModSatIntersect, ModSatIntersectLM,
-  ElimSaturateIntersect, SaturateIntersect, ComputeMaximalMinors, IsRegular,
-  HaveFiniteIntersections, GoodFiberValue_svars, GoodFiberValue,
-  DegreeTruncate, Increment, NextForms, TestGenericLineDegreeSingular,
-  TestGenericLineDegreeRegular, HasFiniteCriticalLocus, FindGenericLineRegular,
-  FindGenericLineSingular, CoeffDeform_eps, CoeffDeform, FindGenericLine,
-  SmallMidRational, ConstructFibers, HasOverLapCoupleOfIntervals, HasOverLap,
-  ComputeBoundsRegular, ManageOverLapComputeBoundsSingular,
-  ElimComputeBoundsSingular, ComputeBoundsSingular, ComputeBounds,
-  ModularLimits, LimitsDeformedCriticalPoints, CriticalPointsSingular,
-  SplitSystem_cstr, SplitSystem, CriticalPoints, ExactSolSelection,
-  GenerateCriticalPointsFamilies, FamCriticalPoints, UnivariateSolveFamily,
-  AdmissibleSolutions, GenerateDeformedFamilies_eps,
-  OLDGenerateDeformedFamilies_eps, UnboundedComponents,
-  DegenerateDeformedSystem, InfiniteBranches, ZeroDimBoundaries, SolveFamily,
-  SemiAlgebraicSolveIterateOnFamilies, PointsPerComponentsAlgebraic,
-  SemiAlgebraicSolve, HasRealSolutions, PointsPerComponents
-]:
+if not(evalb(whattype(eval(RAG)) = package)) then
+  printf("Error: failed to load RAG package.\n"):
+  quit:
+end if:
 
 march(`create`, mladirname):
-
-for p in rag_procs do
-  savelib(p):
-end do:
-
-printf("Installed RAGlib procedures (total %d) into %s\n", nops(rag_procs), mladirname):
+savelib(`RAG`):
+printf("Installed RAG package into %s\n", mladirname):

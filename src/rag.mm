@@ -18,7 +18,6 @@
 
 (**
 TODO: 
-- make it a maple package
 - comment inputs/ouputs of all functions
 - secure the use of MSolve package
 - management of overlapping intervals should be done inside msolve
@@ -29,6 +28,34 @@ TODO:
   semi-algebraic set under study
 - better choices of constraints in the incremental solving procedure
 **)
+
+RAG:=module()
+option package;
+
+export
+HasRealSolutions, PointsPerComponents;
+
+local
+IsMinimal, MinimalGeneratorsDichotomy, MinimalGenerators, WitnessLift,
+MonomialSupport, TableCoeffsSinglePoly, OldTableCoeffs, TableCoeffs,
+LiftPolynomials, NewValuesWitness, GeneratorsLift, ElimModSatIntersect,
+ElimModSatIntersectLM, ModSatIntersect, ModSatIntersectLM,
+ElimSaturateIntersect, SaturateIntersect, ComputeMaximalMinors, IsRegular,
+HaveFiniteIntersections, GoodFiberValue_svars, GoodFiberValue,
+DegreeTruncate, Increment, NextForms, TestGenericLineDegreeSingular,
+TestGenericLineDegreeRegular, HasFiniteCriticalLocus, FindGenericLineRegular,
+FindGenericLineSingular, CoeffDeform_eps, CoeffDeform, FindGenericLine,
+SmallMidRational, ConstructFibers, HasOverLapCoupleOfIntervals, HasOverLap,
+ComputeBoundsRegular, ManageOverLapComputeBoundsSingular,
+ElimComputeBoundsSingular, ComputeBoundsSingular, ComputeBounds,
+ModularLimits, LimitsDeformedCriticalPoints, CriticalPointsSingular,
+SplitSystem_cstr, SplitSystem, CriticalPoints, ExactSolSelection,
+GenerateCriticalPointsFamilies, FamCriticalPoints, UnivariateSolveFamily,
+AdmissibleSolutions, GenerateDeformedFamilies_eps,
+OLDGenerateDeformedFamilies_eps, ConstrainedValues, UnboundedComponents,
+DegenerateDeformedSystem, InfiniteBranches, ZeroDimBoundaries, SolveFamily,
+SemiAlgebraicSolveIterateOnFamilies, PointsPerComponentsAlgebraic,
+SemiAlgebraicSolve;
 
 # The msolve library should installed, compiled and its binary should
 # be accessible from your PATH
@@ -2045,3 +2072,5 @@ local isempty, _l, newopts;
     return SemiAlgebraicSolve(eqs, pos, ineqs, newopts);
   end if;
 end proc:
+
+end module:
