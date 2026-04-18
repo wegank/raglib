@@ -168,6 +168,9 @@ end proc:
 NextForms:=proc(ll)
 local j, n, newll, i, lp;
   n := nops(ll[1]);
+  if n=1 then 
+    return [op(ll), op(map(l->[l[1]+1], ll))];
+  end if;
   newll := [];
   for i from 1 to n-1 do
     lp := combinat:-choose(n-1, i);
