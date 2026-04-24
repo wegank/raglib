@@ -1137,7 +1137,7 @@ local i;
     end if;
   end do;
   for i from 1 to nops(FamPositive) do
-    if [i] <= 0 then
+    if FamPositive[i] <= 0 then
       return [];
     end if;
   end do;
@@ -1914,7 +1914,7 @@ newopts, oldnewvars, npos, NewEquations;
     return [];
   end if;
 
-  NewEquations := select(_pol -> not type(_pol, constant), Equations);
+  NewEquations := select(_pol -> not type(_pol, constant), Equations):
   if convert(remove(member, Equations, NewEquations),set)<>{0} then 
     return [];
   end if;
