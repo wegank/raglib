@@ -1915,9 +1915,6 @@ newopts, oldnewvars, npos, NewEquations;
   end if;
 
   NewEquations := select(_pol -> not type(_pol, constant), Equations):
-  if convert(remove(member, Equations, NewEquations),set)<>{0} then 
-    return [];
-  end if;
 
   vars:=[op(indets([op(Equations), op(Inequalities), op(Inequations)]))];
   if nops(vars) = 0 then 
