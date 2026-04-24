@@ -1137,12 +1137,12 @@ local i;
     end if;
   end do;
   for i from 1 to nops(FamPositive) do
-    if FamPositive[i] < 0 then
+    if [i] <= 0 then
       return [];
     end if;
   end do;
   for i from 1 to nops(Inequalities) do
-    if Inequalities[i] < 0 then
+    if Inequalities[i] <= 0 then
       return [];
     end if;
   end do;
