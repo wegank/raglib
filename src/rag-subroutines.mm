@@ -1132,27 +1132,27 @@ end proc:
 ConstantSolveFamily:=proc(Equations, FamPositive, FamNotNull, Inequalities, Inequations)
 local i;
   for i from 1 to nops(Equations) do
-    if sign(Equations[i]) <> 0 then
+    if Equations[i] <> 0 then
       return [];
     end if;
   end do;
   for i from 1 to nops(FamPositive) do
-    if sign(FamPositive[i]) <= 0 then
+    if FamPositive[i] < 0 then
       return [];
     end if;
   end do;
   for i from 1 to nops(Inequalities) do
-    if sign(Inequalities[i]) <= 0 then
+    if Inequalities[i] < 0 then
       return [];
     end if;
   end do;
   for i from 1 to nops(FamNotNull) do
-    if sign(FamNotNull[i]) = 0 then
+    if FamNotNull[i] = 0 then
       return [];
     end if;
   end do;
   for i from 1 to nops(Inequations) do
-    if sign(Inequations[i]) = 0 then
+    if Inequations[i] = 0 then
       return [];
     end if;
   end do;
@@ -1915,8 +1915,16 @@ newopts, oldnewvars, npos, NewEquations;
   end if;
 
   NewEquations := select(_pol -> not type(_pol, constant), Equations);
+  if convert(remove(member, Equations, NewEquations),set)<>{0} then 
+    return [];
+  end if;
 
   vars:=[op(indets([op(Equations), op(Inequalities), op(Inequations)]))];
+  if nops(vars) = 0 then 
+    return ConstantSolveFamily(Equations, Inequalities, Inequations,
+    [], []);
+  end if;
+
   sols := [];
   lsigns:={}:
   if nops(NewEquations) > 0 then
