@@ -1914,7 +1914,7 @@ newopts, oldnewvars, npos, NewEquations;
     return [];
   end if;
 
-  NewEquations := select(_pol -> not type(_pol, constant), Equations):
+  NewEquations := select(_pol -> not type(_pol, constant), Equations);
 
   vars:=[op(indets([op(Equations), op(Inequalities), op(Inequations)]))];
   if nops(vars) = 0 then 
